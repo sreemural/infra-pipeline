@@ -30,14 +30,14 @@ pipeline{
                 }
             }
         }
-        // stage('Approval'){
-        //     when{
-        //         expression { env.BRANCH_NAME == 'production' }
-        //     }
-        //     steps{
-        //         input message: "Approve deployment to production?", ok: "Deploy"
-        //     }
-        // }
+        stage('Approval'){
+            when{
+                expression { env.BRANCH_NAME == 'production' }
+            }
+            steps{
+                input message: "Approve deployment to production?", ok: "Deploy"
+            }
+        }
 
         stage('Terraform Apply'){
             steps{
