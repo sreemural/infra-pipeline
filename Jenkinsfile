@@ -24,9 +24,12 @@ pipeline{
         stage('Terraform Plan'){
             steps{
                 dir("${TF_WORKDIR}") {
-                    sh 'terraform plan'
-                    sh  'terraform show -no-color tfplan > plan.txt'
-                    sh 'cat plan.txt'
+                         sh '''
+                            terraform plan -input=false -out=tfplan
+                            terraform show -no-color tfplan > tfplan.txt
+                            cat tfplan.txt
+                         '''
+                     
                 }
             }
         }
@@ -42,7 +45,9 @@ pipeline{
         stage('Terraform Apply'){
             steps{
                 dir("${TF_WORKDIR}") {
-                    sh 'terraform apply tfplan'
+                       sh '''
+                          terraform apply -input=false -auto-approve tfplan
+                       '''
                 }
             }
         }
